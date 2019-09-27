@@ -1,0 +1,17 @@
+ru\solon4ak\config\AppInit.class
+ru\solon4ak\controller\AdminController$UserForm.class
+ru\solon4ak\repository\UserDAO.class
+ru\solon4ak\config\RootContextConfiguration.class
+ru\solon4ak\controller\AdminController.class
+ru\solon4ak\config\SecurityWebApplicationInitializer.class
+ru\solon4ak\repository\UserDAOImpl.class
+ru\solon4ak\config\ServletContextConfiguration.class
+ru\solon4ak\config\SecurityConfiguration.class
+ru\solon4ak\service\DBInit.class
+ru\solon4ak\model\User.class
+ru\solon4ak\service\UserDetailServiceImpl.class
+ru\solon4ak\service\UserServiceImpl.class
+ru\solon4ak\controller\UserController.class
+ru\solon4ak\service\UserService.class
+ru\solon4ak\config\MySimpleUrlAuthenticationSuccessHandler.class
+ru\solon4ak\model\UserRoles.class
