@@ -57,7 +57,7 @@
         <tr>
             <td><form:label path="role">User role</form:label></td>
             <td>
-                <form:select path="role" items="${roles}" size="1"/>
+                <form:select path="role" items="${roles}" size="5"/>
             </td>
         </tr>
         <tr>

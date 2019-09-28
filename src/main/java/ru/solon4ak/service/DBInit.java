@@ -3,8 +3,8 @@ package ru.solon4ak.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import ru.solon4ak.model.Role;
 import ru.solon4ak.model.User;
-import ru.solon4ak.model.UserRoles;
 
 import javax.annotation.PostConstruct;
 import java.util.Calendar;
@@ -15,13 +15,21 @@ import java.util.GregorianCalendar;
 public class DBInit {
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    PasswordEncoder encoder;
+    private RoleService roleService;
+
+    @Autowired
+    private PasswordEncoder encoder;
 
     @PostConstruct
     public void initDB() {
+        Role adminRole =  new Role("ADMIN");
+        roleService.addNewRole(adminRole);
+        Role userRole = new Role("USER");
+        roleService.addNewRole(userRole);
+
         User user = new User(
                 "Marcy",
                 "Gray",
@@ -32,7 +40,7 @@ public class DBInit {
                 "mc",
                 encoder.encode("marcy")
         );
-        user.setRole(UserRoles.valueOf("ADMIN").name());
+        user.addRole(adminRole);
         userService.save(user);
 
         user = new User(
@@ -45,7 +53,20 @@ public class DBInit {
                 "henry",
                 encoder.encode("henry")
         );
-        user.setRole(UserRoles.valueOf("USER").name());
+        user.addRole(userRole);
+        userService.save(user);
+
+        user = new User(
+                "Antony",
+                "Goose",
+                "tony@",
+                "",
+                "",
+                new Date(new GregorianCalendar(1998, Calendar.JUNE, 25).getTime().getTime()),
+                "ant",
+                encoder.encode("ant")
+        );
+        user.addRole(userRole);
         userService.save(user);
     }
 }

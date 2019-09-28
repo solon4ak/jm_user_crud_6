@@ -9,8 +9,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.RedirectView;
+import ru.solon4ak.model.Role;
 import ru.solon4ak.model.User;
-import ru.solon4ak.model.UserRoles;
+import ru.solon4ak.service.RoleService;
 import ru.solon4ak.service.UserService;
 
 import java.text.ParseException;
@@ -18,7 +19,6 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("admin")
@@ -26,6 +26,9 @@ public class AdminController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RoleService roleService;
 
     @Autowired
     PasswordEncoder encoder;
@@ -66,7 +69,14 @@ public class AdminController {
                     userForm.getNickName(),
                     encoder.encode(userForm.getPassword())
             );
-            user.setRole(userForm.getRole().toUpperCase());
+
+            Set<Role> roles = new HashSet<>();
+            for (String roleName : userForm.getRole()) {
+                roles.add(roleService.getRoleByName(roleName));
+            }
+            user.setRoles(roles);
+
+            userService.save(user);
         } catch (ParseException ex) {
             Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -93,7 +103,7 @@ public class AdminController {
         userForm.setEmail(user.getEmail());
         userForm.setAddress(user.getAddress());
         userForm.setPhoneNumber(user.getPhoneNumber());
-        userForm.setRole(user.getRole());
+        userForm.setRole(userService.getUserRoles(user));
         userForm.setBirthDate(formatter.format(user.getBirthDate()));
 
         model.put("user", user);
@@ -117,7 +127,13 @@ public class AdminController {
             user.setPhoneNumber(userForm.getPhoneNumber());
             user.setBirthDate(formatter.parse(userForm.getBirthDate()));
             user.setPassword(encoder.encode(userForm.getPassword()));
-            user.setRole(userForm.getRole());
+
+            Set<Role> roles = new HashSet<>();
+            for (String roleName : userForm.getRole()) {
+                roles.add(roleService.getRoleByName(roleName));
+            }
+            user.setRoles(roles);
+
             userService.save(user);
         } catch (ParseException ex) {
             Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
@@ -142,7 +158,7 @@ public class AdminController {
         private String address;
         private String phoneNumber;
         private String birthDate;
-        private String role;
+        private String[] role;
 
         public String getNickName() {
             return nickName;
@@ -208,16 +224,16 @@ public class AdminController {
             this.birthDate = birthDate;
         }
 
-        public String getRole() {
+        public String[] getRole() {
             return role;
         }
 
-        public void setRole(String role) {
+        public void setRole(String[] role) {
             this.role = role;
         }
     }
 
     private List<String> getUserRoles() {
-        return Arrays.stream(UserRoles.values()).map(Enum::name).collect(Collectors.toList());
+        return roleService.getAllRolesNames();
     }
 }

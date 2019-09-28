@@ -11,4 +11,5 @@ public interface UserService {
     User findUser(long id);
     User findByName(String nickName);
     User deleteUser(User user);
+    String[] getUserRoles(User user);
 }

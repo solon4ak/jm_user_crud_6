@@ -55,7 +55,11 @@
                     <td><c:out value="${user.address}"/></td>
                     <td><c:out value="${user.phoneNumber}"/></td>
                     <td><fmt:formatDate value="${user.birthDate}" pattern="dd-MMM-yyyy"/></td>
-                    <td><c:out value="${user.role}"/></td>
+                    <td>
+                        <c:forEach items="${user.roles}" var="role">
+                            <c:out value="${role.name}" /><br>
+                        </c:forEach>
+                    </td>
                     <td>
                         <a href="<c:url value="view/${user.id}" />">
                             View
@@ -76,7 +80,7 @@
     </c:otherwise>
 </c:choose>
 <p>
-    <a href="<c:url value="add" />">Add user</a>
+    <a href="<c:url value="/admin/add" />">Add user</a>
 </p>
 
 </body>

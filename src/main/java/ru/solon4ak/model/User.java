@@ -3,17 +3,18 @@ package ru.solon4ak.model;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
 public class User implements Serializable {
 
     private static final long serialVersionUID = -8706689714326132798L;
-//    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     @Id
-    @Column(name = "id")
+    @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -36,8 +37,13 @@ public class User implements Serializable {
     @Column(name = "birth_date", nullable = false)
     private Date birthDate;
 
-    @Column(name = "user_role", nullable = false)
-    private String role;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles = new HashSet<>();
 
     @Column(name = "username", nullable = false, unique = true)
     private String username;
@@ -58,7 +64,6 @@ public class User implements Serializable {
         this.phoneNumber = phoneNumber;
         this.birthDate = birthDate;
         this.username = username;
-//        this.password = encoder.encode(password);
         this.password = password;
     }
 
@@ -120,12 +125,24 @@ public class User implements Serializable {
         return id;
     }
 
-    public String getRole() {
-        return role;
+    public Set<Role> getRoles() {
+        return roles;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public void addRole(Role role) {
+        this.roles.add(role);
+    }
+
+    public void clearRoles() {
+        this.getRoles().clear();
+    }
+
+    public void removeRole(Role role) {
+        this.roles.remove(role);
     }
 
     public String getUsername() {
@@ -141,7 +158,6 @@ public class User implements Serializable {
     }
 
     public void setPassword(String password) {
-//        this.password = encoder.encode(password);
         this.password = password;
     }
 

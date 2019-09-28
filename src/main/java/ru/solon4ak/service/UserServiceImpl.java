@@ -2,10 +2,14 @@ package ru.solon4ak.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.solon4ak.model.Role;
 import ru.solon4ak.model.User;
 import ru.solon4ak.repository.UserDAO;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -36,5 +40,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public User deleteUser(User user) {
         return userDAO.delete(user);
+    }
+
+    @Override
+    public String[] getUserRoles(User user) {
+        String[] roles = new String[user.getRoles().size()];
+        int i = 0;
+        for (Role role : user.getRoles()) {
+            roles[i] = role.getName();
+            i++;
+        }
+        return roles;
     }
 }

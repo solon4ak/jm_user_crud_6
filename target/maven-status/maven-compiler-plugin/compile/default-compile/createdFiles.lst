@@ -6,12 +6,16 @@ ru\solon4ak\controller\AdminController.class
 ru\solon4ak\config\SecurityWebApplicationInitializer.class
 ru\solon4ak\repository\UserDAOImpl.class
 ru\solon4ak\config\ServletContextConfiguration.class
+ru\solon4ak\repository\RoleDAO.class
 ru\solon4ak\config\SecurityConfiguration.class
 ru\solon4ak\service\DBInit.class
 ru\solon4ak\model\User.class
+ru\solon4ak\service\RoleService.class
 ru\solon4ak\service\UserDetailServiceImpl.class
 ru\solon4ak\service\UserServiceImpl.class
+ru\solon4ak\service\RoleServiceImpl.class
+ru\solon4ak\model\Role.class
 ru\solon4ak\controller\UserController.class
 ru\solon4ak\service\UserService.class
 ru\solon4ak\config\MySimpleUrlAuthenticationSuccessHandler.class
-ru\solon4ak\model\UserRoles.class
+ru\solon4ak\repository\RoleDAOImpl.class

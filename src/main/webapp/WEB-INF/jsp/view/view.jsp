@@ -56,7 +56,9 @@
     <tr>
         <td>User role</td>
         <td>
-            ${user.role}
+            <c:forEach items="${user.roles}" var="role">
+                <c:out value="${role.name}" /><br>
+            </c:forEach>
         </td>
     </tr>
     </tbody>

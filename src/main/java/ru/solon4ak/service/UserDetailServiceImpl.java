@@ -15,7 +15,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
     UserService userService;
 
     @Autowired
-    PasswordEncoder encoder;
+    private PasswordEncoder encoder;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -27,7 +27,8 @@ public class UserDetailServiceImpl implements UserDetailsService {
         if (user != null) {
             builder = org.springframework.security.core.userdetails.User.withUsername(username);
             builder.password(user.getPassword());
-            builder.roles(user.getRole());
+
+            builder.roles(userService.getUserRoles(user));
         } else {
             throw new UsernameNotFoundException("User not found");
         }
