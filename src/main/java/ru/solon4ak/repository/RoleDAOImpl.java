@@ -11,14 +11,12 @@ import javax.persistence.Query;
 import java.util.List;
 
 @Repository
-@Transactional
 public class RoleDAOImpl implements RoleDAO {
 
     @PersistenceContext
     EntityManager entityManager;
 
     @Override
-    @Transactional(readOnly = true)
     public List<Role> getAll() {
         return entityManager.createQuery("select role from Role role").getResultList();
     }
@@ -30,7 +28,6 @@ public class RoleDAOImpl implements RoleDAO {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Role getByName(String roleName) {
         String hql = "select role from Role role where role.name = :name";
         Query query = entityManager.createQuery(hql);

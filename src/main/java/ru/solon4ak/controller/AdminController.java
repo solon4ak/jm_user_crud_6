@@ -1,6 +1,5 @@
 package ru.solon4ak.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,14 +23,17 @@ import java.util.logging.Logger;
 @RequestMapping("admin")
 public class AdminController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
-    @Autowired
-    private RoleService roleService;
+    private final RoleService roleService;
 
-    @Autowired
-    PasswordEncoder encoder;
+    private final PasswordEncoder encoder;
+
+    public AdminController(UserService userService, RoleService roleService, PasswordEncoder encoder) {
+        this.userService = userService;
+        this.roleService = roleService;
+        this.encoder = encoder;
+    }
 
     @GetMapping("list")
     public String getAllUsers(Map<String, Object> model) {
